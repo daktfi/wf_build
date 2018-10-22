@@ -12,3 +12,5 @@ Planning to adding some recursion to better catch synergy between mods (like tak
 Also planning to add some faction-specific damage optimization, however, for that I need to easy and nice way to select right health types and their balance.
 
 The first version was console (and was quite enough for me), however, normal GUI greatly simplifies many things, so here goes Qt. If there are any license issues - I'll be happy to fix them the instant I got notified. MY CODE is free to use by everyone under GPLv3.
+
+Also there's (incomplete and broken at the moment) translation to Russian. I think I need to add to db some localized names/descriptions for mods/weapons, just don't want to do it right now.
