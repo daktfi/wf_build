@@ -66,7 +66,7 @@ public:
 
 	template <typename tmember>
 	static void wpn_calc_dps( const weapon &src, weapon &dst, const double *buff, const QVector<mod> &list,
-							  int mods_count,uint64_t &mask, tmember member );
+							  int mods_count,uint64_t &mask, tmember member, bool recursive );
 	template <typename tmember>
 	static void wpn_calc_riven( const weapon &src, weapon &dst, const double *buff, const QVector<mod> &list, int mods_count, int riven,
 								uint64_t &mask, tmember member, QVector<mod> &r_stat, QVector<mod> &mods, bool neg, MainWindow *self );

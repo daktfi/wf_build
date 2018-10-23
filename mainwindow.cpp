@@ -1525,9 +1525,11 @@ void MainWindow::wpn_calc( const weapon &src, weapon &dst, const double *buff )
 }
 
 template <typename tmember>
-void MainWindow::wpn_calc_dps(const weapon &src, weapon &dst, const double *buff, const QVector<mod> &list, int mods_count, uint64_t &mask, tmember member )
+void MainWindow::wpn_calc_dps( const weapon &src, weapon &dst, const double *buff, const QVector<mod> &list,
+							   int mods_count, uint64_t &mask, tmember member, bool recursive )
 {
-	double b1[fire_count], b2[fire_count], shot = 0;
+	double b1[fire_count], b2[fire_count], shot = 0, s;
+	int rec_idx = -1;
 
 	memcpy( b1, buff, fire_count * sizeof( double ) );
 
@@ -1543,11 +1545,36 @@ void MainWindow::wpn_calc_dps(const weapon &src, weapon &dst, const double *buff
 				b2[m.stat2] += m.val2;
 				b2[m.stat3] += m.val3;
 				b2[m.stat4] += m.val4;
-				wpn_calc( src, dst, b2 );
 
-				if( &dst->*member > shot ) {
+				if( recursive && ( i < ( mods_count - 1 ) ) ) {
+					// Find best pair for currently selected mod...
+					double b3[fire_count];
+					uint64_t mask3 = mask | ( lull << j );
+					s = shot;
+
+					for( int q = 0; q < list.size(); ++q )
+						if( ( mask3 & ( lull << q ) ) == 0 ) {
+							memcpy( b3, b2, fire_count * sizeof( double ) );
+							const auto &m3 = list[q];
+							b3[m3.stat1] += m3.val1;
+							b3[m3.stat2] += m3.val2;
+							b3[m3.stat3] += m3.val3;
+							b3[m3.stat4] += m3.val4;
+							wpn_calc( src, dst, b3 );
+
+							if( &dst->*member > s ) {
+								s = &dst->*member;
+								rec_idx = q;
+							}
+						}
+				} else {
+					wpn_calc( src, dst, b2 );
+					s = &dst->*member;
+				}
+
+				if( s > shot ) {
 					idx = j;
-					shot = &dst->*member;
+					shot = s;
 				}
 			}
 		}
@@ -1560,6 +1587,14 @@ void MainWindow::wpn_calc_dps(const weapon &src, weapon &dst, const double *buff
 			b1[m.stat2] += m.val2;
 			b1[m.stat3] += m.val3;
 			b1[m.stat4] += m.val4;
+		} else if( recursive && rec_idx >= 0 ) {
+			// Add last recursed mod
+			const mod &m = list[rec_idx];
+			mask |= lull << rec_idx;
+			b1[m.stat1] += m.val1;
+			b1[m.stat2] += m.val2;
+			b1[m.stat3] += m.val3;
+			b1[m.stat4] += m.val4;
 		} else
 			break;	// No chances to find more good mods
 	}
@@ -1568,7 +1603,7 @@ void MainWindow::wpn_calc_dps(const weapon &src, weapon &dst, const double *buff
 }
 
 void MainWindow::wpn_build(const weapon &src, const QVector<mod> &forced, const QVector<mod> &list, int n, int riven __attribute__((unused)),
-							bool neg __attribute__((unused)), weapon &dst_1, weapon &dst_burst, weapon &dst_sust, MainWindow *self __attribute__((unused)) )
+							bool neg __attribute__((unused)), weapon &dst_1, weapon &dst_burst, weapon &dst_sust, MainWindow *self )
 {
 	if( list.size() > 64 ) {
 		qDebug() << "Too many mods";	// Can be done other way.
@@ -1592,13 +1627,13 @@ void MainWindow::wpn_build(const weapon &src, const QVector<mod> &forced, const 
 	}
 
 	if( src.type == wpn_melee ) {
-		wpn_calc_dps( src, dst_1, buff, list, n - forced.size(), best_shot, &weapon::dps_x10 );
-		wpn_calc_dps( src, dst_burst, buff, list, n - forced.size(), best_burst, &weapon::dps_x20 );
-		wpn_calc_dps( src, dst_sust, buff, list, n - forced.size(), best_sust, &weapon::dps_x30 );
+		wpn_calc_dps( src, dst_1, buff, list, n - forced.size(), best_shot, &weapon::dps_x10, self->ui->calc_recursion->isChecked() );
+		wpn_calc_dps( src, dst_burst, buff, list, n - forced.size(), best_burst, &weapon::dps_x20, self->ui->calc_recursion->isChecked() );
+		wpn_calc_dps( src, dst_sust, buff, list, n - forced.size(), best_sust, &weapon::dps_x30, self->ui->calc_recursion->isChecked() );
 	} else {
-		wpn_calc_dps( src, dst_1, buff, list, n - forced.size(), best_shot, &weapon::dps_1 );
-		wpn_calc_dps( src, dst_burst, buff, list, n - forced.size(), best_burst, &weapon::dps_burst );
-		wpn_calc_dps( src, dst_sust, buff, list, n - forced.size(), best_sust, &weapon::dps_sust );
+		wpn_calc_dps( src, dst_1, buff, list, n - forced.size(), best_shot, &weapon::dps_1, self->ui->calc_recursion->isChecked() );
+		wpn_calc_dps( src, dst_burst, buff, list, n - forced.size(), best_burst, &weapon::dps_burst, self->ui->calc_recursion->isChecked() );
+		wpn_calc_dps( src, dst_sust, buff, list, n - forced.size(), best_sust, &weapon::dps_sust, self->ui->calc_recursion->isChecked() );
 	}
 
 	for( int i = 0; i < list.size(); ++i )
@@ -1658,11 +1693,12 @@ void MainWindow::wpn_calc_riven( const weapon &src, weapon &dst, const double *b
 								 uint64_t &out_mask, tmember member, QVector<mod> &r_stat, QVector<mod> &mods, bool neg, MainWindow *self )
 {
 	// Try all possible riven 2 or 3 stats combinations and optimize build for each
+	const QStringList &stat_names = ( src.type == wpn_melee ) ? stats_melee : stats_firing;
+	const bool recursive = self->ui->calc_recursion->isChecked();
 	double b0[fire_count + 1], r0[fire_count + 1], *b1 = b0 + 1, *rv_table = r0 + 1, adjust = src.dispo * ( neg ? 1.25 : 1.0 ), shot = 0.0;
 	int last = ( src.type == wpn_melee ) ? int( melee_count ) : int( fire_count ), third0 = fire_none, third1 = third0 + 1;
 	uint64_t mask = 0, best_mask = 0, best_rv = 0;
 	weapon best_wpn;
-	const QStringList &stat_names = ( src.type == wpn_melee ) ? stats_melee : stats_firing;
 
 	// Adjust stats for two-buffs riven
 	if( riven == 3 ) {
@@ -1700,7 +1736,7 @@ void MainWindow::wpn_calc_riven( const weapon &src, weapon &dst, const double *b
 					b1[b] += rv_table[b];
 					b1[c] += rv_table[c];
 					mask = 0;
-					wpn_calc_dps( src, dst, b1, list, mods_count, mask, member );
+					wpn_calc_dps( src, dst, b1, list, mods_count, mask, member, recursive );
 
 					if( &dst->*member > shot ) {
 						shot = &dst->*member;
