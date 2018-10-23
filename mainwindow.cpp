@@ -180,6 +180,19 @@ void MainWindow::setup(const QString &db_file )
 	results[2][1] = ui->calc_lbl_sust_burst;
 	results[2][2] = ui->calc_lbl_sust_sust;
 
+	damage[0] = ui->calc_grineer_cloned_val;
+	damage[1] = ui->calc_grineer_ferrite_val;
+	damage[2] = ui->calc_grineer_alloy_val;
+	damage[3] = ui->calc_grineer_machinery_val;
+	damage[4] = ui->calc_corpus_flesh_val;
+	damage[5] = ui->calc_corpus_shield_val;
+	damage[6] = ui->calc_corpus_proto_val;
+	damage[7] = ui->calc_corpus_robotic_val;
+	damage[8] = ui->calc_infested_infested_val;
+	damage[9] = ui->calc_infested_flesh_val;
+	damage[10] = ui->calc_infested_fossil_val;
+	damage[11] = ui->calc_infested_sinew_val;
+
 	ui->calc_impact->clear();
 	ui->calc_puncture->clear();
 	ui->calc_slash->clear();
@@ -240,6 +253,9 @@ void MainWindow::setup(const QString &db_file )
 	ui->calc_mods_riven_1->clear();
 	ui->calc_mods_riven_burst->clear();
 	ui->calc_mods_riven_sust->clear();
+	ui->calc_grineer->setChecked( false );
+	ui->calc_corpus->setChecked( false );
+	ui->calc_infested->setChecked( false );
 
 	ui->mod_type->addItems( weapon_type_names );
 	ui->mod_stat1->addItems( stats_firing );
@@ -1855,3 +1871,154 @@ void MainWindow::on_calc_mods_riven_sust_itemClicked(QListWidgetItem *item)
 			draw_mod( m );
 
 }
+
+void MainWindow::on_calc_grineer_toggled(bool checked)
+{
+	if( !checked ) {
+		ui->calc_grineer_cloned->setChecked( checked );
+		ui->calc_grineer_ferrite->setChecked( checked );
+		ui->calc_grineer_alloy->setChecked( checked );
+		ui->calc_grineer_machinery->setChecked( checked );
+	}
+
+	ui->calc_grineer_cloned->setDisabled( !checked );
+	ui->calc_grineer_ferrite->setDisabled( !checked );
+	ui->calc_grineer_alloy->setDisabled( !checked );
+	ui->calc_grineer_machinery->setDisabled( !checked );
+}
+
+void MainWindow::on_calc_grineer_cloned_toggled(bool checked)
+{
+	ui->calc_grineer_cloned_val->setDisabled( !checked );
+	balance_damage();
+}
+
+void MainWindow::on_calc_grineer_ferrite_toggled(bool checked)
+{
+	ui->calc_grineer_ferrite_val->setDisabled( !checked );
+	balance_damage();
+}
+
+void MainWindow::on_calc_grineer_alloy_toggled(bool checked)
+{
+	ui->calc_grineer_alloy_val->setDisabled( !checked );
+	balance_damage();
+}
+
+void MainWindow::on_calc_grineer_machinery_toggled(bool checked)
+{
+	ui->calc_grineer_machinery_val->setDisabled( !checked );
+	balance_damage();
+}
+
+
+void MainWindow::on_calc_corpus_toggled(bool checked)
+{
+	if( !checked ) {
+		ui->calc_corpus_flesh->setChecked( checked );
+		ui->calc_corpus_shield->setChecked( checked );
+		ui->calc_corpus_proto->setChecked( checked );
+		ui->calc_corpus_robotic->setChecked( checked );
+	}
+
+	ui->calc_corpus_flesh->setDisabled( !checked );
+	ui->calc_corpus_shield->setDisabled( !checked );
+	ui->calc_corpus_proto->setDisabled( !checked );
+	ui->calc_corpus_robotic->setDisabled( !checked );
+}
+
+void MainWindow::on_calc_corpus_flesh_toggled(bool checked)
+{
+	ui->calc_corpus_flesh_val->setDisabled( !checked );
+	balance_damage();
+}
+
+void MainWindow::on_calc_corpus_shield_toggled(bool checked)
+{
+	ui->calc_corpus_shield_val->setDisabled( !checked );
+	balance_damage();
+}
+
+void MainWindow::on_calc_corpus_proto_toggled(bool checked)
+{
+	ui->calc_corpus_proto_val->setDisabled( !checked );
+	balance_damage();
+}
+
+void MainWindow::on_calc_corpus_robotic_toggled(bool checked)
+{
+	ui->calc_corpus_robotic_val->setDisabled( !checked );
+	balance_damage();
+}
+
+void MainWindow::on_calc_infested_toggled(bool checked)
+{
+	if( !checked ) {
+		ui->calc_infested_infested->setChecked( checked );
+		ui->calc_infested_flesh->setChecked( checked );
+		ui->calc_infested_fossil->setChecked( checked );
+		ui->calc_infested_sinew->setChecked( checked );
+	}
+
+	ui->calc_infested_infested->setDisabled( !checked );
+	ui->calc_infested_flesh->setDisabled( !checked );
+	ui->calc_infested_fossil->setDisabled( !checked );
+	ui->calc_infested_sinew->setDisabled( !checked );
+}
+
+void MainWindow::on_calc_infested_infested_toggled(bool checked)
+{
+	ui->calc_infested_infested_val->setDisabled( !checked );
+	balance_damage();
+}
+
+void MainWindow::on_calc_infested_flesh_toggled(bool checked)
+{
+	ui->calc_infested_flesh_val->setDisabled( !checked );
+	balance_damage();
+}
+
+void MainWindow::on_calc_infested_fossil_toggled(bool checked)
+{
+	ui->calc_infested_fossil_val->setDisabled( !checked );
+	balance_damage();
+}
+
+void MainWindow::on_calc_infested_sinew_toggled(bool checked)
+{
+	ui->calc_infested_sinew_val->setDisabled( !checked );
+	balance_damage();
+}
+
+void MainWindow::balance_damage( void )
+{
+	int sum = 0, half = 0, count = 0;
+	double adjust = 1.0;
+
+	for( int i = 0; i < 10; ++i )
+		if( damage[i]->isEnabled() ) {
+			sum += damage[i]->value();
+			++count;
+		}
+
+	qDebug() << sum << count;
+
+	if( count == 0 )
+		return;
+
+	if( sum == 0 )
+		sum = count;
+
+	if( sum < 100 )
+		half = ( 100 - sum ) / count;
+	else
+		adjust = 100.0 / sum;
+
+	qDebug() << sum << count << half;
+
+	if( abs( sum - 100 ) > count )
+		for( int i = 0; i < 12; ++i )
+			if( damage[i]->isEnabled() )
+				damage[i]->setValue( adjust * damage[i]->value() + half );
+}
+

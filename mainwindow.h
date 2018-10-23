@@ -7,6 +7,8 @@
 #include <QTranslator>
 #include <QVector>
 #include <QLabel>
+#include <QSpinBox>
+#include <QCheckBox>
 #include "weapon.h"
 
 class weapon;
@@ -80,6 +82,7 @@ public:
 	QString printf( int v ) { return QString::number( v ); }
 	void draw_mod_list( QListWidget *wgt, QVector<mod> &mods );
 	void draw_mod( const mod &m );
+	void balance_damage( void );
 
 private slots:
 
@@ -98,6 +101,26 @@ private slots:
 	void on_calc_riven_clicked( int n );
 	void on_calc_weapon_currentIndexChanged(const QString &wpn_nm);
 	void on_calc_wpn_filter_currentIndexChanged(const QString &arg1);
+	void on_calc_riven2_clicked();
+	void on_calc_riven3_clicked();
+	void on_calc_mods_riven_1_itemClicked(QListWidgetItem *item);
+	void on_calc_mods_riven_burst_itemClicked(QListWidgetItem *item);
+	void on_calc_mods_riven_sust_itemClicked(QListWidgetItem *item);
+	void on_calc_grineer_cloned_toggled(bool checked);
+	void on_calc_grineer_ferrite_toggled(bool checked);
+	void on_calc_grineer_alloy_toggled(bool checked);
+	void on_calc_grineer_machinery_toggled(bool checked);
+	void on_calc_grineer_toggled(bool checked);
+	void on_calc_corpus_toggled(bool checked);
+	void on_calc_corpus_flesh_toggled(bool checked);
+	void on_calc_corpus_shield_toggled(bool checked);
+	void on_calc_corpus_proto_toggled(bool checked);
+	void on_calc_corpus_robotic_toggled(bool checked);
+	void on_calc_infested_toggled(bool checked);
+	void on_calc_infested_infested_toggled(bool checked);
+	void on_calc_infested_flesh_toggled(bool checked);
+	void on_calc_infested_fossil_toggled(bool checked);
+	void on_calc_infested_sinew_toggled(bool checked);
 
 	void on_mod_delete_pressed();
 	void on_mod_ena2_toggled(bool checked);
@@ -117,16 +140,6 @@ private slots:
 	void on_wpn_save_clicked();
 	void on_wpn_type_currentIndexChanged(int index);
 
-	void on_calc_riven2_clicked();
-
-	void on_calc_riven3_clicked();
-
-	void on_calc_mods_riven_1_itemClicked(QListWidgetItem *item);
-
-	void on_calc_mods_riven_burst_itemClicked(QListWidgetItem *item);
-
-	void on_calc_mods_riven_sust_itemClicked(QListWidgetItem *item);
-
 private:
 	Ui::MainWindow *ui;
 	QSqlDatabase db;
@@ -142,6 +155,7 @@ private:
 	QVector<mod> mods, mods_forced, mods_excluded;//, mods_1, mods_burst, mods_sust;
 
 	QLabel *results[3][3];
+	QSpinBox *damage[12];
 };
 
 #endif // MAINWINDOW_H

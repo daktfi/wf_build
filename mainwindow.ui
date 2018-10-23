@@ -92,7 +92,10 @@
             <number>3</number>
            </property>
            <item row="4" column="5">
-            <widget class="QSpinBox" name="spinBox_9">
+            <widget class="QSpinBox" name="calc_infested_sinew_val">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
              <property name="minimumSize">
               <size>
                <width>45</width>
@@ -108,17 +111,26 @@
              <property name="suffix">
               <string notr="true">%</string>
              </property>
+             <property name="maximum">
+              <number>100</number>
+             </property>
             </widget>
            </item>
            <item row="3" column="4">
-            <widget class="QCheckBox" name="checkBox_11">
+            <widget class="QCheckBox" name="calc_infested_fossil">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
              <property name="text">
               <string>Fossil</string>
              </property>
             </widget>
            </item>
            <item row="4" column="3">
-            <widget class="QSpinBox" name="spinBox_11">
+            <widget class="QSpinBox" name="calc_corpus_robotic_val">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
              <property name="minimumSize">
               <size>
                <width>45</width>
@@ -134,24 +146,36 @@
              <property name="suffix">
               <string notr="true">%</string>
              </property>
+             <property name="maximum">
+              <number>100</number>
+             </property>
             </widget>
            </item>
            <item row="3" column="2">
-            <widget class="QCheckBox" name="checkBox_6">
+            <widget class="QCheckBox" name="calc_corpus_proto">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
              <property name="text">
               <string>P. Shield</string>
              </property>
             </widget>
            </item>
            <item row="4" column="2">
-            <widget class="QCheckBox" name="checkBox_8">
+            <widget class="QCheckBox" name="calc_corpus_robotic">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
              <property name="text">
               <string>Robotic</string>
              </property>
             </widget>
            </item>
            <item row="4" column="1">
-            <widget class="QSpinBox" name="spinBox_7">
+            <widget class="QSpinBox" name="calc_grineer_machinery_val">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
              <property name="minimumSize">
               <size>
                <width>45</width>
@@ -167,17 +191,26 @@
              <property name="suffix">
               <string notr="true">%</string>
              </property>
+             <property name="maximum">
+              <number>100</number>
+             </property>
             </widget>
            </item>
            <item row="3" column="0">
-            <widget class="QCheckBox" name="checkBox_4">
+            <widget class="QCheckBox" name="calc_grineer_alloy">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
              <property name="text">
               <string>Alloy</string>
              </property>
             </widget>
            </item>
            <item row="2" column="5">
-            <widget class="QSpinBox" name="spinBox_10">
+            <widget class="QSpinBox" name="calc_infested_flesh_val">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
              <property name="minimumSize">
               <size>
                <width>45</width>
@@ -192,11 +225,17 @@
              </property>
              <property name="suffix">
               <string notr="true">%</string>
+             </property>
+             <property name="maximum">
+              <number>100</number>
              </property>
             </widget>
            </item>
            <item row="3" column="3">
-            <widget class="QSpinBox" name="spinBox_4">
+            <widget class="QSpinBox" name="calc_corpus_proto_val">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
              <property name="minimumSize">
               <size>
                <width>45</width>
@@ -211,11 +250,17 @@
              </property>
              <property name="suffix">
               <string notr="true">%</string>
+             </property>
+             <property name="maximum">
+              <number>100</number>
              </property>
             </widget>
            </item>
            <item row="3" column="1">
-            <widget class="QSpinBox" name="spinBox_2">
+            <widget class="QSpinBox" name="calc_grineer_alloy_val">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
              <property name="minimumSize">
               <size>
                <width>45</width>
@@ -231,31 +276,46 @@
              <property name="suffix">
               <string notr="true">%</string>
              </property>
+             <property name="maximum">
+              <number>100</number>
+             </property>
             </widget>
            </item>
            <item row="2" column="0">
-            <widget class="QCheckBox" name="checkBox_3">
+            <widget class="QCheckBox" name="calc_grineer_ferrite">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
              <property name="text">
               <string>Ferrite</string>
              </property>
             </widget>
            </item>
            <item row="1" column="2">
-            <widget class="QCheckBox" name="checkBox_2">
+            <widget class="QCheckBox" name="calc_corpus_flesh">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
              <property name="text">
               <string>Flesh</string>
              </property>
             </widget>
            </item>
            <item row="2" column="2">
-            <widget class="QCheckBox" name="checkBox_5">
+            <widget class="QCheckBox" name="calc_corpus_shield">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
              <property name="text">
               <string>Shield</string>
              </property>
             </widget>
            </item>
            <item row="2" column="1">
-            <widget class="QSpinBox" name="spinBox_3">
+            <widget class="QSpinBox" name="calc_grineer_ferrite_val">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
              <property name="minimumSize">
               <size>
                <width>45</width>
@@ -270,11 +330,17 @@
              </property>
              <property name="suffix">
               <string notr="true">%</string>
+             </property>
+             <property name="maximum">
+              <number>100</number>
              </property>
             </widget>
            </item>
            <item row="3" column="5">
-            <widget class="QSpinBox" name="spinBox_6">
+            <widget class="QSpinBox" name="calc_infested_fossil_val">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
              <property name="minimumSize">
               <size>
                <width>45</width>
@@ -290,24 +356,36 @@
              <property name="suffix">
               <string notr="true">%</string>
              </property>
+             <property name="maximum">
+              <number>100</number>
+             </property>
             </widget>
            </item>
            <item row="1" column="0">
-            <widget class="QCheckBox" name="checkBox">
+            <widget class="QCheckBox" name="calc_grineer_cloned">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
              <property name="text">
               <string>Cloned</string>
              </property>
             </widget>
            </item>
            <item row="4" column="4">
-            <widget class="QCheckBox" name="checkBox_12">
+            <widget class="QCheckBox" name="calc_infested_sinew">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
              <property name="text">
               <string>Sinew</string>
              </property>
             </widget>
            </item>
            <item row="1" column="5">
-            <widget class="QSpinBox" name="spinBox_5">
+            <widget class="QSpinBox" name="calc_infested_infested_val">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
              <property name="minimumSize">
               <size>
                <width>45</width>
@@ -323,17 +401,26 @@
              <property name="suffix">
               <string notr="true">%</string>
              </property>
+             <property name="maximum">
+              <number>100</number>
+             </property>
             </widget>
            </item>
            <item row="1" column="4">
-            <widget class="QCheckBox" name="checkBox_9">
+            <widget class="QCheckBox" name="calc_infested_infested">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
              <property name="text">
               <string>Infested</string>
              </property>
             </widget>
            </item>
            <item row="1" column="3">
-            <widget class="QSpinBox" name="spinBox_8">
+            <widget class="QSpinBox" name="calc_corpus_flesh_val">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
              <property name="minimumSize">
               <size>
                <width>45</width>
@@ -349,17 +436,26 @@
              <property name="suffix">
               <string notr="true">%</string>
              </property>
+             <property name="maximum">
+              <number>100</number>
+             </property>
             </widget>
            </item>
            <item row="4" column="0">
-            <widget class="QCheckBox" name="checkBox_7">
+            <widget class="QCheckBox" name="calc_grineer_machinery">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
              <property name="text">
               <string>Machinery</string>
              </property>
             </widget>
            </item>
            <item row="2" column="3">
-            <widget class="QSpinBox" name="spinBox_12">
+            <widget class="QSpinBox" name="calc_corpus_shield_val">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
              <property name="minimumSize">
               <size>
                <width>45</width>
@@ -375,17 +471,26 @@
              <property name="suffix">
               <string notr="true">%</string>
              </property>
+             <property name="maximum">
+              <number>100</number>
+             </property>
             </widget>
            </item>
            <item row="2" column="4">
-            <widget class="QCheckBox" name="checkBox_10">
+            <widget class="QCheckBox" name="calc_infested_flesh">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
              <property name="text">
               <string>I. Flesh</string>
              </property>
             </widget>
            </item>
            <item row="1" column="1">
-            <widget class="QSpinBox" name="spinBox">
+            <widget class="QSpinBox" name="calc_grineer_cloned_val">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
              <property name="minimumSize">
               <size>
                <width>45</width>
@@ -401,24 +506,27 @@
              <property name="suffix">
               <string notr="true">%</string>
              </property>
+             <property name="maximum">
+              <number>100</number>
+             </property>
             </widget>
            </item>
            <item row="0" column="0" colspan="2" alignment="Qt::AlignHCenter">
-            <widget class="QCheckBox" name="checkBox_13">
+            <widget class="QCheckBox" name="calc_grineer">
              <property name="text">
               <string>Grineer</string>
              </property>
             </widget>
            </item>
            <item row="0" column="2" colspan="2" alignment="Qt::AlignHCenter">
-            <widget class="QCheckBox" name="checkBox_14">
+            <widget class="QCheckBox" name="calc_corpus">
              <property name="text">
               <string>Corpus</string>
              </property>
             </widget>
            </item>
            <item row="0" column="4" colspan="2" alignment="Qt::AlignHCenter">
-            <widget class="QCheckBox" name="checkBox_15">
+            <widget class="QCheckBox" name="calc_infested">
              <property name="text">
               <string>Infested</string>
              </property>
@@ -3123,33 +3231,33 @@ Description
   <tabstop>tabWidget</tabstop>
   <tabstop>calc_wpn_filter</tabstop>
   <tabstop>calc_weapon</tabstop>
-  <tabstop>checkBox_13</tabstop>
-  <tabstop>checkBox</tabstop>
-  <tabstop>spinBox</tabstop>
-  <tabstop>checkBox_3</tabstop>
-  <tabstop>spinBox_3</tabstop>
-  <tabstop>checkBox_4</tabstop>
-  <tabstop>spinBox_2</tabstop>
-  <tabstop>checkBox_7</tabstop>
-  <tabstop>spinBox_7</tabstop>
-  <tabstop>checkBox_14</tabstop>
-  <tabstop>checkBox_2</tabstop>
-  <tabstop>spinBox_8</tabstop>
-  <tabstop>checkBox_5</tabstop>
-  <tabstop>spinBox_12</tabstop>
-  <tabstop>checkBox_6</tabstop>
-  <tabstop>spinBox_4</tabstop>
-  <tabstop>checkBox_8</tabstop>
-  <tabstop>spinBox_11</tabstop>
-  <tabstop>checkBox_15</tabstop>
-  <tabstop>checkBox_9</tabstop>
-  <tabstop>spinBox_5</tabstop>
-  <tabstop>checkBox_10</tabstop>
-  <tabstop>spinBox_10</tabstop>
-  <tabstop>checkBox_11</tabstop>
-  <tabstop>spinBox_6</tabstop>
-  <tabstop>checkBox_12</tabstop>
-  <tabstop>spinBox_9</tabstop>
+  <tabstop>calc_grineer</tabstop>
+  <tabstop>calc_grineer_cloned</tabstop>
+  <tabstop>calc_grineer_cloned_val</tabstop>
+  <tabstop>calc_grineer_ferrite</tabstop>
+  <tabstop>calc_grineer_ferrite_val</tabstop>
+  <tabstop>calc_grineer_alloy</tabstop>
+  <tabstop>calc_grineer_alloy_val</tabstop>
+  <tabstop>calc_grineer_machinery</tabstop>
+  <tabstop>calc_grineer_machinery_val</tabstop>
+  <tabstop>calc_corpus</tabstop>
+  <tabstop>calc_corpus_flesh</tabstop>
+  <tabstop>calc_corpus_flesh_val</tabstop>
+  <tabstop>calc_corpus_shield</tabstop>
+  <tabstop>calc_corpus_shield_val</tabstop>
+  <tabstop>calc_corpus_proto</tabstop>
+  <tabstop>calc_corpus_proto_val</tabstop>
+  <tabstop>calc_corpus_robotic</tabstop>
+  <tabstop>calc_corpus_robotic_val</tabstop>
+  <tabstop>calc_infested</tabstop>
+  <tabstop>calc_infested_infested</tabstop>
+  <tabstop>calc_infested_infested_val</tabstop>
+  <tabstop>calc_infested_flesh</tabstop>
+  <tabstop>calc_infested_flesh_val</tabstop>
+  <tabstop>calc_infested_fossil</tabstop>
+  <tabstop>calc_infested_fossil_val</tabstop>
+  <tabstop>calc_infested_sinew</tabstop>
+  <tabstop>calc_infested_sinew_val</tabstop>
   <tabstop>calc_mods</tabstop>
   <tabstop>calc_mod_include</tabstop>
   <tabstop>calc_mod_exclude</tabstop>
