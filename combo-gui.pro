@@ -12,7 +12,7 @@ TARGET = combo-gui
 TEMPLATE = app
 
 QMAKE_CXXFLAGS += -std=c++11
-QMAKE_CXXFLAGS_RELEASE += -O2
+QMAKE_CXXFLAGS_RELEASE += -O3
 
 SOURCES += main.cpp\
 		mainwindow.cpp

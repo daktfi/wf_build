@@ -1694,7 +1694,6 @@ void MainWindow::wpn_calc_riven( const weapon &src, weapon &dst, const double *b
 {
 	// Try all possible riven 2 or 3 stats combinations and optimize build for each
 	const QStringList &stat_names = ( src.type == wpn_melee ) ? stats_melee : stats_firing;
-	const bool recursive = self->ui->calc_recursion->isChecked();
 	double b0[fire_count + 1], r0[fire_count + 1], *b1 = b0 + 1, *rv_table = r0 + 1, adjust = src.dispo * ( neg ? 1.25 : 1.0 ), shot = 0.0;
 	int last = ( src.type == wpn_melee ) ? int( melee_count ) : int( fire_count ), third0 = fire_none, third1 = third0 + 1;
 	uint64_t mask = 0, best_mask = 0, best_rv = 0;
@@ -1736,7 +1735,7 @@ void MainWindow::wpn_calc_riven( const weapon &src, weapon &dst, const double *b
 					b1[b] += rv_table[b];
 					b1[c] += rv_table[c];
 					mask = 0;
-					wpn_calc_dps( src, dst, b1, list, mods_count, mask, member, recursive );
+					wpn_calc_dps( src, dst, b1, list, mods_count, mask, member, false );
 
 					if( &dst->*member > shot ) {
 						shot = &dst->*member;
