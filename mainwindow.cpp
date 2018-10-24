@@ -618,12 +618,11 @@ void MainWindow::reduce_mods_list()
 		if( wpn_nm == w.name ) {
 			ui->calc_mods->clear();
 
-			for( const auto &m : mods ) {
+			for( const auto &m : mods )
 				if( w.type == m.type
-						&& ( w.subtype == m.subtype || m.subtype == wpn_normal )
+						&& ( m.subtype == w.subtype || m.subtype == wpn_normal )
 						&& ( m.exact_wpn.isEmpty() || m.exact_wpn == w.name ) )
 					ui->calc_mods->addItem( m.name );
-			}
 
 			return;
 		}
@@ -1197,39 +1196,50 @@ void MainWindow::changeEvent(QEvent* event)
 	QMainWindow::changeEvent(event);
 }
 
-void MainWindow::build_mods_list( QVector<mod> &m )
+void MainWindow::build_mods_list( QVector<mod> &ml )
 {
 	const QString wpn_name = ui->calc_weapon->currentText();
-	weapon wpn;
 
-	for( const auto &it : weapons )
-		if( wpn_name == it.name ) {
-			wpn = it;
-			break;
-		}
+	for( const auto &w : weapons )
+		if( wpn_name == w.name ) {
+			// Builds list of mods to use.
+			for( const auto &m : mods )
+				if( ( m.type == w.type )
+						&& ( m.subtype == wpn_normal || m.subtype == w.subtype )
+						&& ( m.exact_wpn.isEmpty() || m.exact_wpn == w.name ) ) {
+					bool use = true;
 
-	// Builds list of mods to use.
-	for( const auto &m_it : mods )
-		if( ( m_it.type == wpn.type )
-				&& ( m_it.subtype == wpn.subtype || m_it.subtype == wpn_normal )
-				&& ( m_it.exact_wpn.isEmpty() || m_it.exact_wpn == wpn.name ) ) {
-			bool use = true;
+					// Exclude forced mods (they're in other list)
+					for( const auto &f : mods_forced )
+						if( f.name == m.name ) {
+							use = false;
+							break;
+						}
 
-			for( const auto &f_it : mods_forced )
-				if( f_it.name == m_it.name ) {
-					use = false;
-					break;
+					// Exclude excluded mods
+					if( use )
+						for( const auto &x : mods_excluded )
+							if( x.name == m.name ) {
+								use = false;
+								break;
+							}
+
+					// Exclude non-primed mod if primed is present
+					if( use )
+						for( auto &p : ml )
+							if( m.name == "Primed " + p.name || p.name == "Primed " + m.name ) {
+								if( m.name == "Primed " + p.name )
+									p = m;
+
+								use = false;
+								break;
+							}
+
+					if( use )
+						ml << m;
 				}
 
-			if( use )
-				for( const auto &x_it : mods_excluded )
-					if( x_it.name == m_it.name ) {
-						use = false;
-						break;
-					}
-
-			if( use )
-				m << m_it;
+			return;
 		}
 }
 

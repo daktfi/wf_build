@@ -42,7 +42,7 @@ public:
 
 	void setup( const QString &db_file );
 	void reduce_mods_list( void );
-	void build_mods_list( QVector<mod> &m );
+	void build_mods_list( QVector<mod> &ml );
 	void clear_mods_found();
 	void draw_new_weapon_1(weapon &wpn );
 	void draw_new_weapon_burst(weapon &wpn );
