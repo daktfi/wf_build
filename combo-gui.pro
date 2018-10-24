@@ -15,10 +15,12 @@ QMAKE_CXXFLAGS += -std=c++11
 QMAKE_CXXFLAGS_RELEASE += -O3
 
 SOURCES += main.cpp\
-		mainwindow.cpp
+		mainwindow.cpp \
+		constants.cpp
 
 HEADERS  += mainwindow.h \
-	weapon.h
+	weapon.h \
+	constants.h
 
 FORMS    += mainwindow.ui
 
