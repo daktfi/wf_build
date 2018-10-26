@@ -115,6 +115,8 @@ void MainWindow::setup(const QString &db_file )
 	ui->calc_infested->setChecked( false );
 
 	ui->mod_type->addItems( weapon_type_names );
+	ui->mod_type->addItem( "Primary" );
+	ui->mod_type->setCurrentText( weapon_type_names.at( wpn_rifle ) );
 	ui->mod_stat1->addItems( stats_firing );
 	ui->mod_stat2->addItems( stats_firing );
 	ui->mod_list->addItems( mods_list );
@@ -128,23 +130,17 @@ void MainWindow::setup(const QString &db_file )
 
 void MainWindow::on_mod_type_currentIndexChanged(int index)
 {
+	ui->mod_subtype->setDisabled( false );
 	ui->mod_subtype->clear();
 	ui->mod_stat1->clear();
 	ui->mod_stat2->clear();
 	ui->mod_stat3->clear();
 	ui->mod_stat4->clear();
 
-	if( index == wpn_melee ) {
-		ui->mod_stat1->addItems( stats_melee );
-		ui->mod_stat2->addItems( stats_melee );
-		ui->mod_stat3->addItems( stats_melee );
-		ui->mod_stat4->addItems( stats_melee );
-	} else {
-		ui->mod_stat1->addItems( stats_firing );
-		ui->mod_stat2->addItems( stats_firing );
-		ui->mod_stat3->addItems( stats_firing );
-		ui->mod_stat4->addItems( stats_firing );
-	}
+	on_mod_stat_enabled( ui->mod_stat1 );
+	on_mod_stat_enabled( ui->mod_stat2 );
+	on_mod_stat_enabled( ui->mod_stat3 );
+	on_mod_stat_enabled( ui->mod_stat4 );
 
 	switch( index )
 	{
@@ -159,6 +155,9 @@ void MainWindow::on_mod_type_currentIndexChanged(int index)
 		break;
 	case wpn_melee:
 		ui->mod_subtype->addItems( melee_subtypes );
+		break;
+	default:	// Archwing weapons and "any primary" mods have no subtypes
+		ui->mod_subtype->setDisabled( true );
 		break;
 	}
 }
@@ -229,16 +228,15 @@ void MainWindow::on_wpn_save_clicked()
 		wpn.reload = wpn.magazine = wpn.ammo = 0;
 
 	if( !wpn.name.isEmpty() ) {
-		for( auto it = weapons.begin(); it != weapons.end(); ++it ) {
-			if( wpn.name == it->name ) {
+		for( auto &w : weapons )
+			if( wpn.name == w.name ) {
 				if( !update_wpn( wpn ) )
 					qDebug() << "Error updating db!";
 
-				*it = wpn;
+				w = wpn;
 
 				return;
 			}
-		}
 
 		if( !store_wpn( wpn ) )
 			qDebug() << "Error storing to db!";
@@ -257,6 +255,26 @@ void MainWindow::on_wpn_save_clicked()
 	}
 }
 
+void MainWindow::on_mod_stat_enabled( QComboBox *cb )
+{
+	cb->clear();
+
+	switch( ui->mod_type->currentIndex() )
+	{
+	case wpn_rifle:
+	case wpn_shotgun:
+	case wpn_secondary:
+	case wpn_archgun:
+	case wpn_primary:
+		cb->addItems( stats_firing );
+		break;
+	case wpn_melee:
+	case wpn_archmelee:
+		cb->addItems( stats_melee );
+		break;
+	}
+}
+
 void MainWindow::on_mod_ena2_toggled(bool checked)
 {
 	ui->mod_stat2->setDisabled( !checked );
@@ -268,18 +286,7 @@ void MainWindow::on_mod_ena2_toggled(bool checked)
 		ui->mod_ena4->setChecked( false );
 	}
 
-	if( ui->mod_stat2->count() == 0)
-		switch( ui->mod_type->currentIndex() )
-		{
-		case wpn_rifle:
-		case wpn_shotgun:
-		case wpn_secondary:
-			ui->mod_stat2->addItems( stats_firing );
-			break;
-		case wpn_melee:
-			ui->mod_stat2->addItems( stats_melee );
-			break;
-		}
+	on_mod_stat_enabled( ui->mod_stat2 );
 }
 
 void MainWindow::on_mod_ena3_toggled(bool checked)
@@ -291,18 +298,7 @@ void MainWindow::on_mod_ena3_toggled(bool checked)
 	if( !checked )
 		ui->mod_ena4->setChecked( false );
 
-	if( ui->mod_stat3->count() == 0)
-		switch( ui->mod_type->currentIndex() )
-		{
-		case wpn_rifle:
-		case wpn_shotgun:
-		case wpn_secondary:
-			ui->mod_stat3->addItems( stats_firing );
-			break;
-		case wpn_melee:
-			ui->mod_stat3->addItems( stats_melee );
-			break;
-		}
+	on_mod_stat_enabled( ui->mod_stat3 );
 }
 
 void MainWindow::on_mod_ena4_toggled(bool checked)
@@ -310,44 +306,35 @@ void MainWindow::on_mod_ena4_toggled(bool checked)
 	ui->mod_stat4->setDisabled( !checked );
 	ui->mod_val4->setDisabled( !checked );
 
-	if( ui->mod_stat4->count() == 0)
-		switch( ui->mod_type->currentIndex() )
-		{
-		case wpn_rifle:
-		case wpn_shotgun:
-		case wpn_secondary:
-			ui->mod_stat4->addItems( stats_firing );
-			break;
-		case wpn_melee:
-			ui->mod_stat4->addItems( stats_melee );
-			break;
-		}
+	on_mod_stat_enabled( ui->mod_stat4 );
 }
 
 void MainWindow::on_wpn_list_itemClicked(QListWidgetItem *item)
 {
-	for( auto it = weapons.begin(); it != weapons.end(); ++it )
-		if( it->name == item->text() ) {
-			ui->wpn_name->setText( it->name );
-			ui->wpn_type->setCurrentIndex( it->type );
-			ui->wpn_subtype->setCurrentIndex( it->subtype );
-			ui->wpn_impact->setText( printf( it->impact ) );
-			ui->wpn_puncture->setText( printf( it->puncture ) );
-			ui->wpn_slash->setText( printf( it->slash ) );
-			ui->wpn_elemental->setCurrentIndex( it->element );
-			ui->wpn_ele_dmg->setText( printf( it->elemental ) );
-			ui->wpn_crit->setText( printf( it->crit * 100.0 ) + "%" );
-			ui->wpn_mult->setText( printf( it->mult ) );
-			ui->wpn_proc->setText( printf( it->proc * 100.0 ) + "%" );
-			ui->wpn_dispo->setText( printf( it->dispo ) );
-			ui->wpn_rof->setText( printf( it->rof ) );
-			ui->wpn_rnd->setText( printf( it->rnd ) );
-			ui->wpn_pellets->setText( printf( it->pellets ) );
-			ui->wpn_mag->setText( printf( it->magazine ) );
-			ui->wpn_reload->setText( printf( it->reload ) );
-			ui->wpn_ammo->setText( printf( it->ammo ) );
-			ui->wpn_desc->setText( it->desc );
-			ui->wpn_regen->setText( printf( it->regen ) );
+	for( const auto &w : weapons )
+		if( w.name == item->text() ) {
+			ui->wpn_name->setText( w.name );
+			ui->wpn_type->setCurrentIndex( w.type );
+			ui->wpn_subtype->setCurrentIndex( w.subtype );
+			ui->wpn_impact->setText( printf( w.impact ) );
+			ui->wpn_puncture->setText( printf( w.puncture ) );
+			ui->wpn_slash->setText( printf( w.slash ) );
+			ui->wpn_elemental->setCurrentIndex( w.element );
+			ui->wpn_ele_dmg->setText( printf( w.elemental ) );
+			ui->wpn_crit->setText( printf( w.crit * 100.0 ) + "%" );
+			ui->wpn_mult->setText( printf( w.mult ) );
+			ui->wpn_proc->setText( printf( w.proc * 100.0 ) + "%" );
+			ui->wpn_dispo->setText( printf( w.dispo ) );
+			ui->wpn_rof->setText( printf( w.rof ) );
+			ui->wpn_rnd->setText( printf( w.rnd ) );
+			ui->wpn_pellets->setText( printf( w.pellets ) );
+			ui->wpn_mag->setText( printf( w.magazine ) );
+			ui->wpn_reload->setText( printf( w.reload ) );
+			ui->wpn_ammo->setText( printf( w.ammo ) );
+			ui->wpn_desc->setText( w.desc );
+			ui->wpn_regen->setText( printf( w.regen ) );
+
+			return;
 		}
 }
 
@@ -422,48 +409,50 @@ void MainWindow::on_mod_save_clicked()
 	}
 }
 
-void MainWindow::on_mod_list_itemClicked(QListWidgetItem *item)
+void MainWindow::on_mod_list_itemClicked( QListWidgetItem *item )
 {
-	for( auto it = mods.begin(); it != mods.end(); ++it )
-		if( it->name == item->text() ) {
-			ui->mod_name->setText( it->name );
-			ui->mod_desc->setText( it->desc );
-			ui->mod_weapon->setChecked( !it->exact_wpn.isEmpty() );
-			ui->mod_type->setCurrentIndex( it->type );
-			ui->mod_subtype->setCurrentIndex( it->subtype );
+	for( const auto &m : mods )
+		if( m.name == item->text() ) {
+			ui->mod_name->setText( m.name );
+			ui->mod_desc->setText( m.desc );
+			ui->mod_weapon->setChecked( !m.exact_wpn.isEmpty() );
+			ui->mod_type->setCurrentIndex( m.type );
+			ui->mod_subtype->setCurrentIndex( m.subtype );
 
-			if( it->stat2 >= 0 ) {
-				ui->mod_stat2->setCurrentIndex( it->stat2 );
-				ui->mod_val2->setText( printf( it->val2 ) );
+			ui->mod_stat1->setCurrentIndex( m.stat1 );
+			ui->mod_val1->setText( printf( m.val1 ) );
+			ui->mod_ena2->setChecked( m.stat2 >= 0 );
+			ui->mod_ena3->setChecked( m.stat3 >= 0 );
+			ui->mod_ena4->setChecked( m.stat4 >= 0 );
+
+			if( m.stat2 >= 0 ) {
+				ui->mod_stat2->setCurrentIndex( m.stat2 );
+				ui->mod_val2->setText( printf( m.val2 ) );
 			} else {
 				ui->mod_stat2->setCurrentIndex( 0 );
 				ui->mod_val2->setText( "0" );
 			}
 
-			if( it->stat3 >= 0 ) {
-				ui->mod_stat3->setCurrentIndex( it->stat3 );
-				ui->mod_val3->setText( printf( it->val3 ) );
+			if( m.stat3 >= 0 ) {
+				ui->mod_stat3->setCurrentIndex( m.stat3 );
+				ui->mod_val3->setText( printf( m.val3 ) );
 			} else {
 				ui->mod_stat3->setCurrentIndex( 0 );
 				ui->mod_val3->setText( "0" );
 			}
 
-			if( it->stat4 >= 0 ) {
-				ui->mod_stat4->setCurrentIndex( it->stat4 );
-				ui->mod_val4->setText( printf( it->val4 ) );
+			if( m.stat4 >= 0 ) {
+				ui->mod_stat4->setCurrentIndex( m.stat4 );
+				ui->mod_val4->setText( printf( m.val4 ) );
 			} else {
 				ui->mod_stat4->setCurrentIndex( 0 );
 				ui->mod_val4->setText( "0" );
 			}
 
-			if( !it->exact_wpn.isEmpty() )
-				ui->mod_exact_weapon->setCurrentText( it->exact_wpn );
+			if( !m.exact_wpn.isEmpty() )
+				ui->mod_exact_weapon->setCurrentText( m.exact_wpn );
 
-			ui->mod_stat1->setCurrentIndex( it->stat1 );
-			ui->mod_val1->setText( printf( it->val1 ) );
-			ui->mod_ena2->setChecked( it->stat2 >= 0 );
-			ui->mod_ena3->setChecked( it->stat3 >= 0 );
-			ui->mod_ena4->setChecked( it->stat4 >= 0 );
+			return;
 		}
 }
 
@@ -476,16 +465,15 @@ void MainWindow::reduce_mods_list()
 			ui->calc_mods->clear();
 
 			for( const auto &m : mods )
-				if( w.type == m.type
-						&& ( m.subtype == w.subtype || m.subtype == wpn_normal )
-						&& ( m.exact_wpn.isEmpty() || m.exact_wpn == w.name ) )
+				if( ( m.type == w.type && ( m.subtype == wpn_normal || m.subtype == w.subtype ) && ( m.exact_wpn.isEmpty() || m.exact_wpn == w.name ) )
+						|| ( m.type == wpn_primary && ( w.type == wpn_rifle || w.type == wpn_shotgun ) ) )
 					ui->calc_mods->addItem( m.name );
 
 			return;
 		}
 }
 
-void MainWindow::on_calc_weapon_currentIndexChanged(const QString &wpn_nm)
+void MainWindow::on_calc_weapon_currentIndexChanged( const QString &wpn_nm )
 {
 	mods_forced.clear();
 	mods_excluded.clear();
@@ -657,8 +645,8 @@ void MainWindow::on_calc_mod_exclude_clicked()
 {
 	const QString name = ui->calc_mod_name->text();
 
-	for( auto it = mods_excluded.begin(); it != mods_excluded.end(); ++it )
-		if( name == it->name )
+	for( const auto &m : mods_excluded )
+		if( name == m.name )
 			return;
 
 	for( int row = 0; row < ui->calc_mods_forced->count(); ++row )
@@ -667,10 +655,10 @@ void MainWindow::on_calc_mod_exclude_clicked()
 			break;
 		}
 
-	for( auto it = mods.begin(); it != mods.end(); ++it )
-		if( name == it->name ) {
-			mods_excluded << *it;
-			ui->calc_mods_excluded->addItem( it->name );
+	for( const auto &m : mods )
+		if( name == m.name ) {
+			mods_excluded << m;
+			ui->calc_mods_excluded->addItem( m.name );
 		}
 }
 
@@ -1102,10 +1090,11 @@ void MainWindow::build_mods_list( QVector<mod> &ml )
 
 void MainWindow::on_mod_exact_weapon_currentIndexChanged( const QString &name )
 {
-	for( const auto &it : weapons )
-		if( name == it.name ) {
-			ui->mod_type->setCurrentIndex( it.type );
-			ui->mod_subtype->setCurrentIndex( it.subtype );
+	for( const auto &w : weapons )
+		if( name == w.name ) {
+			ui->mod_type->setCurrentIndex( w.type );
+			ui->mod_subtype->setCurrentIndex( w.subtype );
+
 			return;
 		}
 }
@@ -1889,3 +1878,18 @@ void MainWindow::balance_damage( void )
 				damage[i]->setValue( adjust * damage[i]->value() + half );
 }
 
+void MainWindow::set_combo_weapons( QComboBox *cb, const QVector<weapon> &wl )
+{
+	cb->clear();
+
+	for( auto it = wl.begin(); it < wl.end(); ++it )
+		cb->addItem( it->name, it );
+}
+
+void MainWindow::set_combo_mods( QComboBox *cb, const QVector<mod> &ml )
+{
+	cb->clear();
+
+	for( auto it = ml.begin(); it < ml.end(); ++it )
+		cb->addItem( it->name, it );
+}

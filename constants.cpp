@@ -4,32 +4,26 @@
 
 QStringList
 element_names =
-		QStringList() << "None" << "Cold" << "Electricity" << "Heat" << "Toxin"
-					  << "Blast" << "Corrosive" << "Gas" << "Magnetic"
-					  << "Radiation" << "Viral",
+		QStringList() << "None" << "Cold" << "Electricity" << "Heat" << "Toxin" << "Blast"
+					  << "Corrosive" << "Gas" << "Magnetic" << "Radiation" << "Viral",
 weapon_type_names =
-		QStringList() << "Rifle" << "Shotgun" << "Secondary" << "Melee",
+		QStringList() << "Rifle" << "Shotgun" << "Secondary" << "Melee" << "Arch-Gun" << "Arch-Melee",
 rifle_subtypes = QStringList() << "Normal" << "Beam" << "Bow" << "Sniper",
 shotgun_subtypes = QStringList() << "Normal" << "Beam",
 secondary_subtypes = QStringList() << "Normal" << "Beam",
 melee_subtypes = QStringList() << "Normal" << "Throwable",
 stats_firing =
-		QStringList() << "Multishot" << "Damage" << "Impact" << "Puncture"
-					  << "Slash" << "Critical %" << "Critical X" << "Cold"
-					  << "Electricity" << "Heat" << "Toxin" << "Status %"
-					  << "Status Duration" << "vs Corpus" << "vs Corrupted"
-					  << "vs Grineer" << "vs Infested" << "Fire Rate"
-					  << "Magazine" << "Ammo" << "Flight Speed" << "Reload"
-					  << "Recoil" << "Zoom" << "Punch Through" << "Accuracy",
+		QStringList() << "Multishot" << "Damage" << "Impact" << "Puncture" << "Slash" << "Critical %"
+					  << "Critical X" << "Cold" << "Electricity" << "Heat" << "Toxin" << "Status %"
+					  << "Status Duration" << "vs Corpus" << "vs Corrupted" << "vs Grineer"
+					  << "vs Infested" << "Fire Rate" << "Magazine" << "Ammo" << "Flight Speed"
+					  << "Reload" << "Recoil" << "Zoom" << "Punch Through" << "Accuracy",
 stats_melee =
-		QStringList() << "Damage" << "Impact" << "Puncture" << "Slash"
-					  << "Critical %" << "Critical X" << "Cold" << "Electricity"
-					  << "Heat" << "Toxin" << "Status %" << "Status Duration"
-					  << "vs Corpus" << "vs Corrupted" << "vs Grineer"
-					  << "vs Infested" << "Attack Speed" << "Channel Efficiency"
-					  << "Channel Damage" << "Finisher Damage" << "Range"
-					  << "Slide Crit" << "Combo Duration" << "Combo Crit"
-					  << "Combo Status";
+		QStringList() << "Damage" << "Impact" << "Puncture" << "Slash" << "Critical %" << "Critical X"
+					  << "Cold" << "Electricity" << "Heat" << "Toxin" << "Status %" << "Status Duration"
+					  << "vs Corpus" << "vs Corrupted" << "vs Grineer" << "vs Infested" << "Attack Speed"
+					  << "Channel Efficiency" << "Channel Damage" << "Finisher Damage" << "Range"
+					  << "Slide Crit" << "Combo Duration" << "Combo Crit" << "Combo Status";
 
 double
 damage_eff_impact[12] = {

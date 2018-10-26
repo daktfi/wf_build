@@ -25,7 +25,10 @@ enum weapon_types {
 	wpn_rifle,
 	wpn_shotgun,
 	wpn_secondary,
-	wpn_melee
+	wpn_melee,
+	wpn_archgun,
+	wpn_archmelee,
+	wpn_primary
 };
 
 enum wpn_subtypes {

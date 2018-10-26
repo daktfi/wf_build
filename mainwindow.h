@@ -9,6 +9,7 @@
 #include <QLabel>
 #include <QSpinBox>
 #include <QCheckBox>
+#include <QComboBox>
 #include "weapon.h"
 
 class weapon;
@@ -83,6 +84,8 @@ public:
 	void draw_mod_list( QListWidget *wgt, QVector<mod> &mods );
 	void draw_mod( const mod &m );
 	void balance_damage( void );
+	void set_combo_weapons( QComboBox *cb, const QVector<weapon> &wl );
+	void set_combo_mods( QComboBox *cb, const QVector<mod> &ml );
 
 private slots:
 
@@ -132,6 +135,7 @@ private slots:
 	void on_mod_save_clicked();
 	void on_mod_type_currentIndexChanged(int index);
 	void on_mod_weapon_toggled(bool checked);
+	void on_mod_stat_enabled( QComboBox *cb );
 
 	void on_wpn_delete_pressed();
 	void on_wpn_elemental_currentIndexChanged(int index);
@@ -139,6 +143,7 @@ private slots:
 	void on_wpn_list_itemSelectionChanged();
 	void on_wpn_save_clicked();
 	void on_wpn_type_currentIndexChanged(int index);
+
 
 private:
 	Ui::MainWindow *ui;
