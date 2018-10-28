@@ -220,7 +220,7 @@ void MainWindow::on_wpn_save_clicked()
 	wpn.pellets = ui->wpn_pellets->text().toInt();
 	wpn.regen = ui->wpn_regen->text().toDouble();
 
-	if( wpn.type != wpn_melee ) {
+	if( wpn.type != wpn_melee && wpn.type != wpn_archmelee ) {
 		wpn.reload = ui->wpn_reload->text().toDouble();
 		wpn.magazine = ui->wpn_mag->text().toInt();
 		wpn.ammo = ui->wpn_ammo->text().toInt();
@@ -513,7 +513,7 @@ void MainWindow::on_calc_weapon_currentIndexChanged( const QString &wpn_nm )
 				ui->calc_ele_dmg->setText( "none" );
 			}
 
-			if( w.type == wpn_melee ) {
+			if( w.type == wpn_melee || w.type == wpn_archmelee ) {
 				ui->calc_result->setTabText( 0, "Combo x1" );
 				ui->calc_result->setTabText( 1, "Combo x2" );
 				ui->calc_result->setTabText( 2, "Combo x3" );
@@ -725,7 +725,7 @@ void MainWindow::draw_new_weapon_1( weapon &wpn )
 		ui->calc_dmg_phy_1->setText( printf( 100 * ( total - ele ) / total ) + "%" );
 	}
 
-	if( wpn.type == wpn_melee ) {
+	if( wpn.type == wpn_melee ||wpn.type == wpn_archmelee ) {
 		ui->calc_new_pellets_1->clear();
 		ui->calc_dps_1->setText( printf( wpn.dps_x10 ) );
 		ui->calc_dps_1_burst->setText( printf( wpn.dps_x20 ) );
@@ -758,7 +758,7 @@ void MainWindow::draw_new_weapon_burst( weapon &wpn )
 		ui->calc_dmg_phy_burst->setText( printf( 100 * ( total - ele ) / total ) + "%" );
 	}
 
-	if( wpn.type == wpn_melee ) {
+	if( wpn.type == wpn_melee || wpn.type == wpn_archmelee ) {
 		ui->calc_new_pellets_burst->clear();
 		ui->calc_dps_burst_1->setText( printf( wpn.dps_x10 ) );
 		ui->calc_dps_burst->setText( printf( wpn.dps_x20 ) );
@@ -791,7 +791,7 @@ void MainWindow::draw_new_weapon_sust( weapon &wpn )
 		ui->calc_dmg_phy_sust->setText( printf( 100 * ( total - ele ) / total ) + "%" );
 	}
 
-	if( wpn.type == wpn_melee ) {
+	if( wpn.type == wpn_melee || wpn.type == wpn_archmelee ) {
 		ui->calc_new_pellets_sust->clear();
 		ui->calc_dps_sust_1->setText( printf( wpn.dps_x10 ) );
 		ui->calc_dps_sust_burst->setText( printf( wpn.dps_x20 ) );
@@ -1393,7 +1393,7 @@ void MainWindow::wpn_calc( const weapon &src, weapon &dst, const double *buff )
 	dst.type = src.type;
 	dst.subtype = src.subtype;
 
-	if( src.type == wpn_melee )
+	if( src.type == wpn_melee || src.type == wpn_archmelee )
 		wpn_calc_melee( src, dst, buff );
 	else
 		wpn_calc_firing( src, dst, buff );
@@ -1501,7 +1501,7 @@ void MainWindow::wpn_build(const weapon &src, const QVector<mod> &forced, const 
 		return;
 	}
 
-	if( src.type == wpn_melee ) {
+	if( src.type == wpn_melee || src.type == wpn_archmelee ) {
 		wpn_calc_dps( src, dst_1, buff, list, n - forced.size(), best_shot, &weapon::dps_x10, self->ui->calc_recursion->isChecked() );
 		wpn_calc_dps( src, dst_burst, buff, list, n - forced.size(), best_burst, &weapon::dps_x20, self->ui->calc_recursion->isChecked() );
 		wpn_calc_dps( src, dst_sust, buff, list, n - forced.size(), best_sust, &weapon::dps_x30, self->ui->calc_recursion->isChecked() );
@@ -1548,7 +1548,7 @@ void MainWindow::wpn_riven(const weapon &src, const QVector<mod> &forced, const 
 		return;
 	}
 
-	if( src.type == wpn_melee ) {
+	if( src.type == wpn_melee || src.type == wpn_archmelee ) {
 		wpn_calc_riven( src, dst_1, buff, list, n - forced.size() - 1, riven, best_shot, &weapon::dps_x10, rm_1, mods_1, neg, self );
 		wpn_calc_riven( src, dst_burst, buff, list, n - forced.size() - 1, riven, best_burst, &weapon::dps_x20, rm_burst, mods_burst, neg, self );
 		wpn_calc_riven( src, dst_sust, buff, list, n - forced.size() - 1, riven, best_sust, &weapon::dps_x30, rm_sust, mods_sust, neg, self );
@@ -1568,9 +1568,9 @@ void MainWindow::wpn_calc_riven( const weapon &src, weapon &dst, const double *b
 								 uint64_t &out_mask, tmember member, QVector<mod> &r_stat, QVector<mod> &mods, bool neg, MainWindow *self )
 {
 	// Try all possible riven 2 or 3 stats combinations and optimize build for each
-	const QStringList &stat_names = ( src.type == wpn_melee ) ? stats_melee : stats_firing;
+	const QStringList &stat_names = ( src.type == wpn_melee || src.type == wpn_archmelee ) ? stats_melee : stats_firing;
 	double b0[fire_count + 1], r0[fire_count + 1], *b1 = b0 + 1, *rv_table = r0 + 1, adjust = src.dispo * ( neg ? 1.25 : 1.0 ), shot = 0.0;
-	int last = ( src.type == wpn_melee ) ? int( melee_count ) : int( fire_count ), third0 = fire_none, third1 = third0 + 1;
+	int last = ( src.type == wpn_melee || src.type == wpn_archmelee ) ? int( melee_count ) : int( fire_count ), third0 = fire_none, third1 = third0 + 1;
 	uint64_t mask = 0, best_mask = 0, best_rv = 0;
 	weapon best_wpn;
 
@@ -1582,7 +1582,7 @@ void MainWindow::wpn_calc_riven( const weapon &src, weapon &dst, const double *b
 		adjust *= 1.32;
 
 	adjust *= 1.11;
-	self->ui->calc_riven_progress->setMaximum( ( 2 + ( src.type != wpn_melee ) ) * ( third1 - third0 ) * last - 1 );
+	self->ui->calc_riven_progress->setMaximum( ( 2 + ( src.type != wpn_melee && src.type != wpn_archmelee ) ) * ( third1 - third0 ) * last - 1 );
 
 	// Select right buffs table and put in all the modifiers
 	if( src.type == wpn_rifle )
@@ -1675,7 +1675,7 @@ void MainWindow::draw_mod_list( QListWidget *wgt, QVector<mod> &mods )
 
 void MainWindow::draw_mod( const mod &m )
 {
-	const QStringList &slist = ( m.type == wpn_melee ) ? stats_melee : stats_firing;
+	const QStringList &slist = ( m.type == wpn_melee || m.type == wpn_archmelee ) ? stats_melee : stats_firing;
 
 	ui->calc_mod_name->setText( m.name );
 	ui->calc_mod_desc->setText( m.desc );
