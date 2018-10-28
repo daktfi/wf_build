@@ -165,12 +165,12 @@ void MainWindow::on_mod_type_currentIndexChanged(int index)
 void MainWindow::on_wpn_type_currentIndexChanged(int index)
 {
 	ui->wpn_subtype->clear();
-	ui->wpn_mag->setDisabled( index == wpn_melee );
-	ui->wpn_ammo->setDisabled( index == wpn_melee );
-	ui->wpn_reload->setDisabled( index == wpn_melee );
-	ui->wpn_regen->setDisabled( index == wpn_melee );
-	ui->wpn_rnd->setDisabled( index == wpn_melee );
-	ui->wpn_pellets->setDisabled( index == wpn_melee );
+	ui->wpn_mag->setDisabled( index == wpn_melee || index == wpn_archmelee );
+	ui->wpn_ammo->setDisabled( index == wpn_melee || index == wpn_archmelee );
+	ui->wpn_reload->setDisabled( index == wpn_melee || index == wpn_archmelee );
+	ui->wpn_regen->setDisabled( index == wpn_melee || index == wpn_archmelee );
+	ui->wpn_rnd->setDisabled( index == wpn_melee || index == wpn_archmelee );
+	ui->wpn_pellets->setDisabled( index == wpn_melee || index == wpn_archmelee );
 
 	switch( index )
 	{
@@ -501,6 +501,9 @@ void MainWindow::on_calc_weapon_currentIndexChanged( const QString &wpn_nm )
 			ui->calc_mag->setText( printf( w.magazine ) );
 			ui->calc_reload->setText( printf( w.reload ) );
 			ui->calc_ammo->setText( printf( w.ammo ) );
+			ui->calc_riven2->setDisabled( w.type == wpn_archgun || w.type == wpn_archmelee );
+			ui->calc_riven3->setDisabled( w.type == wpn_archgun || w.type == wpn_archmelee );
+
 
 			if( w.element != element_none ) {
 				ui->calc_element->setText( element_names.at( w.element ) );
@@ -1848,8 +1851,8 @@ void MainWindow::on_calc_infested_sinew_toggled(bool checked)
 
 void MainWindow::balance_damage( void )
 {
-	int sum = 0, half = 0, count = 0;
-	double adjust = 1.0;
+	int sum = 0, count = 0;
+	double adjust = 1.0, half = 0.0;
 
 	for( int i = 0; i < 10; ++i )
 		if( damage[i]->isEnabled() ) {
@@ -1866,7 +1869,7 @@ void MainWindow::balance_damage( void )
 		sum = count;
 
 	if( sum < 100 )
-		half = ( 100 - sum ) / count;
+		half = ( 100.0 - sum ) / count;
 	else
 		adjust = 100.0 / sum;
 
