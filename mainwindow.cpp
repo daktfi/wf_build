@@ -503,7 +503,7 @@ void MainWindow::on_calc_weapon_currentIndexChanged( const QString &wpn_nm )
 			ui->calc_ammo->setText( printf( w.ammo ) );
 			ui->calc_riven2->setDisabled( w.type == wpn_archgun || w.type == wpn_archmelee );
 			ui->calc_riven3->setDisabled( w.type == wpn_archgun || w.type == wpn_archmelee );
-
+			ui->calc_riven_neg->setDisabled( w.type == wpn_archgun || w.type == wpn_archmelee );
 
 			if( w.element != element_none ) {
 				ui->calc_element->setText( element_names.at( w.element ) );
