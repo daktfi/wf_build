@@ -55,7 +55,7 @@
         <string>Calculate</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_18">
-        <item row="0" column="0" alignment="Qt::AlignHCenter|Qt::AlignTop">
+        <item row="0" column="0">
          <widget class="QFrame" name="frame_4">
           <property name="minimumSize">
            <size>
@@ -535,18 +535,18 @@
           </layout>
          </widget>
         </item>
-        <item row="0" column="1" rowspan="2" alignment="Qt::AlignHCenter|Qt::AlignTop">
+        <item row="0" column="1" rowspan="2">
          <widget class="QFrame" name="frame_2">
           <property name="minimumSize">
            <size>
             <width>400</width>
-            <height>230</height>
+            <height>200</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
             <width>400</width>
-            <height>230</height>
+            <height>200</height>
            </size>
           </property>
           <property name="frameShape">
@@ -817,174 +817,7 @@ Description</string>
           </layout>
          </widget>
         </item>
-        <item row="2" column="1" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-         <widget class="QFrame" name="frame_11">
-          <property name="minimumSize">
-           <size>
-            <width>400</width>
-            <height>90</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>400</width>
-            <height>90</height>
-           </size>
-          </property>
-          <property name="frameShape">
-           <enum>QFrame::Box</enum>
-          </property>
-          <property name="frameShadow">
-           <enum>QFrame::Plain</enum>
-          </property>
-          <layout class="QGridLayout" name="gridLayout_3">
-           <property name="leftMargin">
-            <number>3</number>
-           </property>
-           <property name="topMargin">
-            <number>3</number>
-           </property>
-           <property name="rightMargin">
-            <number>3</number>
-           </property>
-           <property name="bottomMargin">
-            <number>3</number>
-           </property>
-           <property name="spacing">
-            <number>3</number>
-           </property>
-           <item row="0" column="0">
-            <widget class="QCheckBox" name="calc_recursion">
-             <property name="text">
-              <string>Recursive?</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="1" alignment="Qt::AlignRight">
-            <widget class="QLabel" name="label_38">
-             <property name="text">
-              <string>Mods</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="2" alignment="Qt::AlignLeft">
-            <widget class="QSpinBox" name="calc_mods_count">
-             <property name="minimumSize">
-              <size>
-               <width>35</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>40</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="minimum">
-              <number>1</number>
-             </property>
-             <property name="maximum">
-              <number>8</number>
-             </property>
-             <property name="value">
-              <number>8</number>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="3" alignment="Qt::AlignHCenter">
-            <widget class="QPushButton" name="calc_build">
-             <property name="minimumSize">
-              <size>
-               <width>120</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>120</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>Find build</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="0">
-            <widget class="QCheckBox" name="calc_riven_neg">
-             <property name="text">
-              <string>With penalty?</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="1" colspan="2" alignment="Qt::AlignHCenter">
-            <widget class="QPushButton" name="calc_riven2">
-             <property name="minimumSize">
-              <size>
-               <width>120</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>120</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>Find riven x2</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="3" alignment="Qt::AlignHCenter">
-            <widget class="QPushButton" name="calc_riven3">
-             <property name="minimumSize">
-              <size>
-               <width>120</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>120</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>Find riven x3</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="0" colspan="4">
-            <widget class="QProgressBar" name="calc_riven_progress">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>100</width>
-               <height>5</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>410</width>
-               <height>5</height>
-              </size>
-             </property>
-             <property name="value">
-              <number>0</number>
-             </property>
-             <property name="textVisible">
-              <bool>false</bool>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </item>
-        <item row="1" column="0" rowspan="3" alignment="Qt::AlignHCenter">
+        <item row="1" column="0" rowspan="3">
          <widget class="QFrame" name="frame_3">
           <property name="minimumSize">
            <size>
@@ -1299,6 +1132,179 @@ Description
              </property>
              <property name="sortingEnabled">
               <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QFrame" name="frame_11">
+          <property name="minimumSize">
+           <size>
+            <width>400</width>
+            <height>120</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>400</width>
+            <height>120</height>
+           </size>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::Box</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Plain</enum>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_3">
+           <item row="0" column="2" alignment="Qt::AlignRight|Qt::AlignVCenter">
+            <widget class="QLabel" name="label_38">
+             <property name="text">
+              <string>Mods</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="3" alignment="Qt::AlignLeft|Qt::AlignVCenter">
+            <widget class="QSpinBox" name="calc_mods_count">
+             <property name="minimumSize">
+              <size>
+               <width>35</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>40</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="minimum">
+              <number>1</number>
+             </property>
+             <property name="maximum">
+              <number>8</number>
+             </property>
+             <property name="value">
+              <number>8</number>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="2" colspan="2" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+            <widget class="QCheckBox" name="calc_recursion">
+             <property name="text">
+              <string>Recursive?</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QPushButton" name="calc_riven2">
+             <property name="minimumSize">
+              <size>
+               <width>120</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>120</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Find riven x2</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QPushButton" name="calc_riven3">
+             <property name="minimumSize">
+              <size>
+               <width>120</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>120</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Find riven x3</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="2" colspan="2">
+            <widget class="QPushButton" name="calc_build">
+             <property name="minimumSize">
+              <size>
+               <width>120</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>120</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Find build</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0" colspan="4">
+            <widget class="QProgressBar" name="calc_riven_progress">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>100</width>
+               <height>5</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>410</width>
+               <height>5</height>
+              </size>
+             </property>
+             <property name="value">
+              <number>0</number>
+             </property>
+             <property name="textVisible">
+              <bool>false</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QCheckBox" name="calc_riven_no_fact">
+             <property name="text">
+              <string>No faction</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QCheckBox" name="calc_riven_no_ele">
+             <property name="text">
+              <string>No elemental</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QCheckBox" name="calc_riven_neg">
+             <property name="text">
+              <string>With penalty</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QCheckBox" name="calc_riven_no_phy">
+             <property name="text">
+              <string>No physical</string>
              </property>
             </widget>
            </item>
@@ -3820,7 +3826,7 @@ Description
      <x>0</x>
      <y>0</y>
      <width>858</width>
-     <height>25</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuLanguage">
@@ -3881,11 +3887,7 @@ Description
   <tabstop>calc_mods_forced</tabstop>
   <tabstop>calc_mods_excluded</tabstop>
   <tabstop>calc_recursion</tabstop>
-  <tabstop>calc_mods_count</tabstop>
-  <tabstop>calc_build</tabstop>
   <tabstop>calc_riven_neg</tabstop>
-  <tabstop>calc_riven2</tabstop>
-  <tabstop>calc_riven3</tabstop>
   <tabstop>calc_result</tabstop>
   <tabstop>calc_mods_riven_1</tabstop>
   <tabstop>calc_mods_found_1</tabstop>

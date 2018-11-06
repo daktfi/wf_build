@@ -1568,11 +1568,26 @@ void MainWindow::wpn_calc_riven( const weapon &src, weapon &dst, const double *b
 								 uint64_t &out_mask, tmember member, QVector<mod> &r_stat, QVector<mod> &mods, bool neg, MainWindow *self )
 {
 	// Try all possible riven 2 or 3 stats combinations and optimize build for each
-	const QStringList &stat_names = ( src.type == wpn_melee || src.type == wpn_archmelee ) ? stats_melee : stats_firing;
+	bool is_melee = ( src.type == wpn_melee || src.type == wpn_archmelee );
+	const QStringList &stat_names = is_melee ? stats_melee : stats_firing;
 	double b0[fire_count + 1], r0[fire_count + 1], *b1 = b0 + 1, *rv_table = r0 + 1, adjust = src.dispo * ( neg ? 1.25 : 1.0 ), shot = 0.0;
-	int last = ( src.type == wpn_melee || src.type == wpn_archmelee ) ? int( melee_count ) : int( fire_count ), third0 = fire_none, third1 = third0 + 1;
+	int last = 0, third0 = fire_none, third1 = third0 + 1, stats[fire_count];
 	uint64_t mask = 0, best_mask = 0, best_rv = 0;
 	weapon best_wpn;
+
+	// Build list of allowed riven buffs
+	for( int i = 0, e = is_melee ? melee_count : fire_count; i < e; ++i ) {
+		if( self->ui->calc_riven_no_phy->isChecked() && i >= ( is_melee ? melee_impact : fire_impact ) && i <= ( is_melee ? melee_slash : fire_slash ) )
+			continue;
+
+		if( self->ui->calc_riven_no_ele->isChecked() && i >= ( is_melee ? melee_cold : fire_cold ) && i <= ( is_melee ? melee_toxin : fire_toxin ) )
+			continue;
+
+		if( self->ui->calc_riven_no_fact->isChecked() && i >= ( is_melee ? melee_corpus : fire_corpus ) && i <= ( is_melee ? melee_infested : fire_infested ) )
+			continue;
+
+		stats[last++] = i;
+	}
 
 	// Adjust stats for two-buffs riven
 	if( riven == 3 ) {
@@ -1606,9 +1621,9 @@ void MainWindow::wpn_calc_riven( const weapon &src, weapon &dst, const double *b
 			for( int c = 0; c < last; ++c )
 				if( a != b && a != c && b != c ) {
 					memcpy( b1, buff, fire_count * sizeof( double ) );
-					b1[a] += rv_table[a];
-					b1[b] += rv_table[b];
-					b1[c] += rv_table[c];
+					b1[stats[a]] += rv_table[stats[a]];
+					b1[stats[b]] += rv_table[stats[b]];
+					b1[stats[c]] += rv_table[stats[c]];
 					mask = 0;
 					wpn_calc_dps( src, dst, b1, list, mods_count, mask, member, false );
 
@@ -1631,13 +1646,13 @@ void MainWindow::wpn_calc_riven( const weapon &src, weapon &dst, const double *b
 		if( best_rv & ( lull << i ) ) {
 			mod m;
 
-			m.stat1 = i;
-			m.val1 = rv_table[i];
+			m.stat1 = stats[i];
+			m.val1 = rv_table[stats[i]];
 			m.type = src.type;
 			m.subtype = src.subtype;
 			m.exact_wpn = src.name;
 			m.desc = "Recommended riven mod buff";
-			m.name = stat_names.at( i );
+			m.name = stat_names.at( stats[i] );
 
 			r_stat << m;
 		}
