@@ -1577,13 +1577,13 @@ void MainWindow::wpn_calc_riven( const weapon &src, weapon &dst, const double *b
 
 	// Build list of allowed riven buffs
 	for( int i = 0, e = is_melee ? melee_count : fire_count; i < e; ++i ) {
-		if( self->ui->calc_riven_no_phy->isChecked() && i >= ( is_melee ? melee_impact : fire_impact ) && i <= ( is_melee ? melee_slash : fire_slash ) )
+		if( self->ui->calc_riven_no_phy->isChecked() && i >= stat_impact  && i <= stat_slash )
 			continue;
 
-		if( self->ui->calc_riven_no_ele->isChecked() && i >= ( is_melee ? melee_cold : fire_cold ) && i <= ( is_melee ? melee_toxin : fire_toxin ) )
+		if( self->ui->calc_riven_no_ele->isChecked() && i >= stat_cold && i <= stat_toxin )
 			continue;
 
-		if( self->ui->calc_riven_no_fact->isChecked() && i >= ( is_melee ? melee_corpus : fire_corpus ) && i <= ( is_melee ? melee_infested : fire_infested ) )
+		if( self->ui->calc_riven_no_fact->isChecked() && i >= stat_corpus && i <= stat_infested )
 			continue;
 
 		stats[last++] = i;

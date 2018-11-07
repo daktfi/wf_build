@@ -13,11 +13,11 @@ shotgun_subtypes = QStringList() << "Normal" << "Beam",
 secondary_subtypes = QStringList() << "Normal" << "Beam",
 melee_subtypes = QStringList() << "Normal" << "Throwable",
 stats_firing =
-		QStringList() << "Multishot" << "Damage" << "Impact" << "Puncture" << "Slash" << "Critical %"
-					  << "Critical X" << "Cold" << "Electricity" << "Heat" << "Toxin" << "Status %"
-					  << "Status Duration" << "vs Corpus" << "vs Corrupted" << "vs Grineer"
-					  << "vs Infested" << "Fire Rate" << "Magazine" << "Ammo" << "Flight Speed"
-					  << "Reload" << "Recoil" << "Zoom" << "Punch Through" << "Accuracy",
+		QStringList() << "Damage" << "Impact" << "Puncture" << "Slash" << "Critical %" << "Critical X"
+					  << "Cold" << "Electricity" << "Heat" << "Toxin" << "Status %" << "Status Duration"
+					  << "vs Corpus" << "vs Corrupted" << "vs Grineer" << "vs Infested" << "Fire Rate"
+					  << "Multishot" << "Magazine" << "Ammo" << "Flight Speed" << "Reload" << "Recoil"
+					  << "Zoom" << "Punch Through" << "Accuracy",
 stats_melee =
 		QStringList() << "Damage" << "Impact" << "Puncture" << "Slash" << "Critical %" << "Critical X"
 					  << "Cold" << "Electricity" << "Heat" << "Toxin" << "Status %" << "Status Duration"
@@ -210,7 +210,6 @@ damage_eff_viral[12] = {
 },
 riven_table_rifle[fire_count] =
 {
-	0.608,	// fire_multishot,
 	1.114,	// fire_damage,
 	0.810,	// fire_impact,
 	0.810,	// fire_puncture,
@@ -228,6 +227,7 @@ riven_table_rifle[fire_count] =
 	0.304,	// fire_grineer,
 	0.304,	// fire_infested,
 	0.405,	// fire_rof,
+	0.608,	// fire_multishot,
 	0.338,	// fire_magazine,
 	0.337,	// fire_ammo,
 	0.608,	// fire_flight,
@@ -238,7 +238,6 @@ riven_table_rifle[fire_count] =
 	0.0,	// fire_accuracy,
 },
 riven_table_shotgun[fire_count] = {
-	0.808,	// fire_multishot,
 	1.112,	// fire_damage,
 	0.810,	// fire_impact,
 	0.810,	// fire_puncture,
@@ -256,6 +255,7 @@ riven_table_shotgun[fire_count] = {
 	0.304,	// fire_grineer,
 	0.304,	// fire_infested,
 	0.608,	// fire_rof,
+	0.808,	// fire_multishot,
 	0.338,	// fire_magazine,
 	0.608,	// fire_ammo,
 	0.608,	// fire_flight,
@@ -266,7 +266,6 @@ riven_table_shotgun[fire_count] = {
 	0.0,	// fire_accuracy,
 },
 riven_table_secondary[fire_count] = {
-	0.808,	// fire_multishot,
 	1.482,	// fire_damage,
 	0.810,	// fire_impact,
 	0.810,	// fire_puncture,
@@ -284,6 +283,7 @@ riven_table_secondary[fire_count] = {
 	0.304,	// fire_grineer,
 	0.304,	// fire_infested,
 	0.504,	// fire_rof,
+	0.808,	// fire_multishot,
 	0.338,	// fire_magazine,
 	0.608,	// fire_ammo,
 	0.608,	// fire_flight,
