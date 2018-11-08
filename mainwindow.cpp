@@ -1621,7 +1621,10 @@ void MainWindow::wpn_calc_riven( const weapon &src, weapon &dst, const double *b
 			for( int c = 0; c < last; ++c )
 				if( a != b && a != c && b != c ) {
 					memcpy( b1, buff, fire_count * sizeof( double ) );
-					b1[stats[a]] += rv_table[stats[a]];
+
+					if( a >= 0 )
+						b1[stats[a]] += rv_table[stats[a]];
+
 					b1[stats[b]] += rv_table[stats[b]];
 					b1[stats[c]] += rv_table[stats[c]];
 					mask = 0;
@@ -1630,8 +1633,11 @@ void MainWindow::wpn_calc_riven( const weapon &src, weapon &dst, const double *b
 					if( &dst->*member > shot ) {
 						shot = &dst->*member;
 						best_mask = mask;
-						best_rv = ( lull << a ) | ( lull << b ) | ( lull << c );
+						best_rv = ( lull << b ) | ( lull << c );
 						best_wpn = dst;
+
+						if( a >= 0 )
+							best_rv |= lull << a;
 					}
 				}
 		}
