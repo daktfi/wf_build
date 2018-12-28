@@ -716,6 +716,7 @@ void MainWindow::draw_new_weapon_1( weapon &wpn )
 	ui->calc_new_rof_1->setText( printf( wpn.rof ) );
 	ui->calc_new_mag_1->setText( printf( wpn.magazine ) );
 	ui->calc_new_reload_1->setText( printf( wpn.reload ) );
+	ui->calc_new_load_1->setText( printf( wpn.dps_1 * ( wpn.magazine + wpn.ammo ) ) );
 	ui->calc_new_proc_1->setText( printf( wpn.proc * 100.0 ) + "%" );
 
 	double phy = wpn.impact + wpn.puncture + wpn.slash, ele = wpn.elemental, total = phy + ele;
@@ -749,6 +750,7 @@ void MainWindow::draw_new_weapon_burst( weapon &wpn )
 	ui->calc_new_rof_burst->setText( printf( wpn.rof ) );
 	ui->calc_new_mag_burst->setText( printf( wpn.magazine ) );
 	ui->calc_new_reload_burst->setText( printf( wpn.reload ) );
+	ui->calc_new_load_burst->setText( printf( wpn.dps_1 * ( wpn.magazine + wpn.ammo ) ) );
 	ui->calc_new_proc_burst->setText( printf( wpn.proc * 100.0 ) + "%" );
 
 	double phy = wpn.impact + wpn.puncture + wpn.slash, ele = wpn.elemental, total = phy + ele;
@@ -782,6 +784,7 @@ void MainWindow::draw_new_weapon_sust( weapon &wpn )
 	ui->calc_new_rof_sust->setText( printf( wpn.rof ) );
 	ui->calc_new_mag_sust->setText( printf( wpn.magazine ) );
 	ui->calc_new_reload_sust->setText( printf( wpn.reload ) );
+	ui->calc_new_load_sust->setText( printf( wpn.dps_1 * ( wpn.magazine + wpn.ammo ) ) );
 	ui->calc_new_proc_sust->setText( printf( wpn.proc * 100.0 ) + "%" );
 
 	double phy = wpn.impact + wpn.puncture + wpn.slash, ele = wpn.elemental, total = phy + ele;
@@ -808,7 +811,9 @@ QString MainWindow::printf( double v )
 {
 	QString t;
 
-	if( std::abs( v ) >= 1000 )
+	if( std::abs( v ) >= 1000000 )
+		t.sprintf( "%0.2lfM", v / 1000000 );
+	else if( std::abs( v ) >= 1000 )
 		t.sprintf( "%0.0lf", v );
 	else if( std::abs( v ) >= 100 )
 		t.sprintf( "%0.1lf", v );
