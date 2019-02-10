@@ -5,6 +5,7 @@
 #include "QSqlError"
 #include "QMessageBox"
 #include "constants.h"
+#include "math.h"
 
 #define lull uint64_t( 1 )
 
@@ -697,7 +698,7 @@ void MainWindow::mods_forced_changed()
 	for( const auto &it : weapons )
 		if( name == it.name ) {
 			weapon result;
-			wpn_build( it, mods_forced, QVector<mod>(), ui->calc_mods_count->value(), 0, false, result, result, result, nullptr );
+			wpn_build( it, mods_forced, QVector<mod>(), ui->calc_mods_count->value(), 0, false, result, result, result, this );
 			draw_new_weapon_1( result );
 			draw_new_weapon_burst( result );
 			draw_new_weapon_sust( result );
@@ -1406,7 +1407,7 @@ void MainWindow::wpn_calc( const weapon &src, weapon &dst, const double *buff )
 
 template <typename tmember>
 void MainWindow::wpn_calc_dps( const weapon &src, weapon &dst, const double *buff, const QVector<mod> &list,
-							   int mods_count, uint64_t &mask, tmember member, bool recursive )
+                               int mods_count, uint64_t &mask, tmember member, bool recursive )
 {
 	double b1[fire_count], b2[fire_count], shot = 0, s;
 	int rec_idx = -1;
@@ -1500,6 +1501,9 @@ void MainWindow::wpn_build(const weapon &src, const QVector<mod> &forced, const 
 		buff[f.stat4] += f.val4;
 	}
 
+	if( self->ui->calc_arbitrage->isChecked() )
+		buff[stat_damage] += 3.0;	// +300% arbitrage bonus
+
 	if( list.size() == 0 || forced.size() >= n ) {
 		wpn_calc( src, dst_1, buff );
 		dst_burst = dst_sust = dst_1;
@@ -1546,6 +1550,9 @@ void MainWindow::wpn_riven(const weapon &src, const QVector<mod> &forced, const 
 		buff[f.stat3] += f.val3;
 		buff[f.stat4] += f.val4;
 	}
+
+	if( self->ui->calc_arbitrage->isChecked() )
+		buff[stat_damage] += 3.0;	// +300% arbitrage bonus
 
 	if( list.size() == 0 || forced.size() >= n ) {
 		wpn_calc( src, dst_1, buff );
