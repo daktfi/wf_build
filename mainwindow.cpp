@@ -818,10 +818,10 @@ QString MainWindow::printf( double v )
 		t.sprintf( "%0.0lf", v );
 	else if( std::abs( v ) >= 100 )
 		t.sprintf( "%0.1lf", v );
-	else if( std::abs( v ) < 0.1 )
-		t.sprintf( "%0.3lf", v );
-	else
+	else if( std::abs( v ) >= 10 )
 		t.sprintf( "%0.2lf", v );
+	else
+		t.sprintf( "%0.3lf", v );
 
 	return t;
 }
