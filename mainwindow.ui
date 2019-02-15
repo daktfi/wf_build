@@ -1143,13 +1143,13 @@ Description
           <property name="minimumSize">
            <size>
             <width>400</width>
-            <height>120</height>
+            <height>125</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
             <width>400</width>
-            <height>120</height>
+            <height>125</height>
            </size>
           </property>
           <property name="frameShape">
@@ -1230,26 +1230,7 @@ Description
              </property>
             </widget>
            </item>
-           <item row="3" column="1">
-            <widget class="QPushButton" name="calc_riven3">
-             <property name="minimumSize">
-              <size>
-               <width>120</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>120</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>Find riven x3</string>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="2" colspan="2">
+           <item row="3" column="2" colspan="2" alignment="Qt::AlignHCenter">
             <widget class="QPushButton" name="calc_build">
              <property name="minimumSize">
               <size>
@@ -1264,26 +1245,7 @@ Description
               </size>
              </property>
              <property name="text">
-              <string>Find build</string>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="0">
-            <widget class="QPushButton" name="calc_riven2">
-             <property name="minimumSize">
-              <size>
-               <width>120</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>120</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>Find riven x2</string>
+              <string>Calculate build</string>
              </property>
             </widget>
            </item>
@@ -1308,10 +1270,50 @@ Description
              </property>
             </widget>
            </item>
-           <item row="0" column="1">
+           <item row="3" column="0">
             <widget class="QCheckBox" name="calc_riven_neg">
              <property name="text">
               <string>With penalty</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1" rowspan="2">
+            <widget class="QPushButton" name="calc_riven2">
+             <property name="minimumSize">
+              <size>
+               <width>120</width>
+               <height>40</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>120</width>
+               <height>40</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Calculate riven
+2 bonuses</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1" rowspan="2">
+            <widget class="QPushButton" name="calc_riven3">
+             <property name="minimumSize">
+              <size>
+               <width>120</width>
+               <height>40</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>120</width>
+               <height>40</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Calculate riven
+3 bonuses</string>
              </property>
             </widget>
            </item>

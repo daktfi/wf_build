@@ -218,7 +218,7 @@ void MainWindow::on_wpn_save_clicked()
 	wpn.desc = ui->wpn_desc->text();
 	wpn.rnd = ui->wpn_rnd->text().toInt();
 	wpn.rof = ui->wpn_rof->text().toDouble();
-	wpn.pellets = ui->wpn_pellets->text().toInt();
+	wpn.pellets = ui->wpn_pellets->text().toDouble();
 	wpn.regen = ui->wpn_regen->text().toDouble();
 
 	if( wpn.type != wpn_melee && wpn.type != wpn_archmelee ) {
