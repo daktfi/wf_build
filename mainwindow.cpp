@@ -487,6 +487,8 @@ void MainWindow::on_calc_weapon_currentIndexChanged( const QString &wpn_nm )
 
 	for( const auto &w : weapons )
 		if( w.name == wpn_nm ) {
+			bool no_riven = ( w.type == wpn_archmelee );
+
 			ui->calc_desc->setText( w.desc );
 			ui->calc_type->setText( weapon_type_names.at( w.type ) );
 			ui->calc_impact->setText( printf( w.impact ) );
@@ -502,9 +504,12 @@ void MainWindow::on_calc_weapon_currentIndexChanged( const QString &wpn_nm )
 			ui->calc_mag->setText( printf( w.magazine ) );
 			ui->calc_reload->setText( printf( w.reload ) );
 			ui->calc_ammo->setText( printf( w.ammo ) );
-			ui->calc_riven2->setDisabled( w.type == wpn_archgun || w.type == wpn_archmelee );
-			ui->calc_riven3->setDisabled( w.type == wpn_archgun || w.type == wpn_archmelee );
-			ui->calc_riven_neg->setDisabled( w.type == wpn_archgun || w.type == wpn_archmelee );
+			ui->calc_riven2->setDisabled( no_riven );
+			ui->calc_riven3->setDisabled( no_riven );
+			ui->calc_riven_neg->setDisabled( no_riven );
+			ui->calc_riven_no_ele->setDisabled( no_riven );
+			ui->calc_riven_no_phy->setDisabled( no_riven );
+			ui->calc_riven_no_fact->setDisabled( no_riven );
 
 			if( w.element != element_none ) {
 				ui->calc_element->setText( element_names.at( w.element ) );
@@ -1533,8 +1538,8 @@ void MainWindow::wpn_build(const weapon &src, const QVector<mod> &forced, const 
 			mods_sust.push_back( list[i] );
 }
 
-void MainWindow::wpn_riven(const weapon &src, const QVector<mod> &forced, const QVector<mod> &list, int n, int riven, bool neg,
-						   weapon &dst_1, weapon &dst_burst, weapon &dst_sust, MainWindow *self )
+void MainWindow::wpn_riven( const weapon &src, const QVector<mod> &forced, const QVector<mod> &list, int n, int riven, bool neg,
+                            weapon &dst_1, weapon &dst_burst, weapon &dst_sust, MainWindow *self )
 {
 	if( list.size() > 64 ) {
 		qDebug() << "Too many mods";	// Can be done other way.
@@ -1621,6 +1626,9 @@ void MainWindow::wpn_calc_riven( const weapon &src, weapon &dst, const double *b
 	else if( src.type == wpn_secondary )
 		for( int i = 0; i < fire_count; ++i )
 			rv_table[i] = riven_table_secondary[i] * adjust;
+	else if( src.type == wpn_archgun )
+		for( int i = 0; i < fire_count; ++i )
+			rv_table[i] = riven_table_archgun[i] * adjust;
 	else if( src.type == wpn_melee )
 		for( int i = 0; i < melee_count; ++i )
 			rv_table[i] = riven_table_melee[i] * adjust;

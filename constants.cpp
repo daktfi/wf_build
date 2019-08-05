@@ -1,29 +1,25 @@
 #include <QStringList>
 #include <QVector>
 #include "weapon.h"
+#include "constants.h"
 
 QStringList
-element_names =
-		QStringList() << "None" << "Cold" << "Electricity" << "Heat" << "Toxin" << "Blast"
-					  << "Corrosive" << "Gas" << "Magnetic" << "Radiation" << "Viral",
-weapon_type_names =
-		QStringList() << "Rifle" << "Shotgun" << "Secondary" << "Melee" << "Arch-Gun" << "Arch-Melee",
-rifle_subtypes = QStringList() << "Normal" << "Beam" << "Bow" << "Sniper",
-shotgun_subtypes = QStringList() << "Normal" << "Beam",
-secondary_subtypes = QStringList() << "Normal" << "Beam",
-melee_subtypes = QStringList() << "Normal" << "Throwable",
-stats_firing =
-		QStringList() << "Damage" << "Impact" << "Puncture" << "Slash" << "Critical %" << "Critical X"
-					  << "Cold" << "Electricity" << "Heat" << "Toxin" << "Status %" << "Status Duration"
-					  << "vs Corpus" << "vs Corrupted" << "vs Grineer" << "vs Infested" << "Fire Rate"
-					  << "Multishot" << "Magazine" << "Ammo" << "Flight Speed" << "Reload" << "Recoil"
-					  << "Zoom" << "Punch Through" << "Accuracy",
-stats_melee =
-		QStringList() << "Damage" << "Impact" << "Puncture" << "Slash" << "Critical %" << "Critical X"
-					  << "Cold" << "Electricity" << "Heat" << "Toxin" << "Status %" << "Status Duration"
-					  << "vs Corpus" << "vs Corrupted" << "vs Grineer" << "vs Infested" << "Attack Speed"
-					  << "Channel Efficiency" << "Channel Damage" << "Finisher Damage" << "Range"
-					  << "Slide Crit" << "Combo Duration" << "Combo Crit" << "Combo Status";
+element_names = { "None", "Cold", "Electricity", "Heat", "Toxin", "Blast",
+                  "Corrosive", "Gas", "Magnetic", "Radiation", "Viral" },
+weapon_type_names = { "Rifle", "Shotgun", "Secondary", "Melee", "Arch-Gun", "Arch-Melee" },
+rifle_subtypes = { "Normal", "Beam", "Bow", "Sniper" },
+shotgun_subtypes = { "Normal", "Beam" },
+secondary_subtypes = { "Normal", "Beam" },
+melee_subtypes = { "Normal", "Throwable" },
+stats_firing = { "Damage", "Impact", "Puncture", "Slash", "Critical %", "Critical X", "Cold",
+                 "Electricity", "Heat", "Toxin", "Status %", "Status Duration", "vs Corpus",
+                 "vs Corrupted", "vs Grineer", "vs Infested", "Fire Rate", "Multishot", "Magazine",
+                 "Ammo", "Flight Speed", "Reload", "Recoil", "Zoom", "Punch Through", "Accuracy" },
+stats_melee = { "Damage", "Impact", "Puncture", "Slash", "Critical %", "Critical X", "Cold",
+                "Electricity", "Heat", "Toxin", "Status %", "Status Duration", "vs Corpus",
+                "vs Corrupted", "vs Grineer", "vs Infested", "Attack Speed", "Channel Efficiency",
+                "Channel Damage", "Finisher Damage", "Range", "Slide Crit", "Combo Duration",
+                "Combo Crit", "Combo Status" };
 
 double
 damage_eff_impact[12] = {
@@ -293,32 +289,60 @@ riven_table_secondary[fire_count] = {
 	1.8,	// fire_punch,
 	0.0,	// fire_accuracy,
 },
+riven_table_archgun[fire_count] = {
+    0.674,	// fire_damage,
+    0.607,	// fire_impact,
+    0.607,	// fire_puncture,
+    0.607,	// fire_slash,
+    0.674,	// fire_crit,
+    0.541,	// fire_mult,
+    0.808,	// fire_cold,
+    0.808,	// fire_electricity,
+    0.808,	// fire_heat,
+    0.808,	// fire_toxin,
+    0.407,	// fire_proc,
+    0.675,	// fire_proc_duration,
+    0.304,	// fire_corpus,
+    0.304,	// fire_corrupted,
+    0.304,	// fire_grineer,
+    0.304,	// fire_infested,
+    0.405,	// fire_rof,
+    0.407,	// fire_multishot,
+    0.407,	// fire_magazine,
+    0.674,	// fire_ammo,
+    0.0,	// fire_flight,
+    0.674,	// fire_reload,
+    -0.607,	// fire_recoil,
+    0.405,	// fire_zoom,
+    1.831,	// fire_punch,
+    0.0,	// fire_accuracy,
+},
 riven_table_melee[melee_count] = {
-	1.112,	// melee_damage,
-	0.808,	// melee_impact,
-	0.808,	// melee_puncture,
-	0.808,	// melee_slash,
-	0.608,	// melee_crit,
-	0.608,	// melee_mult,
-	0.608,	// melee_cold,
-	0.608,	// melee_electricity,
-	0.608,	// melee_heat,
-	0.608,	// melee_toxin,
-	0.608,	// melee_proc,
-	0.675,	// melee_proc_duration,
-	0.304,	// melee_corpus,
-	0.304,	// melee_corrupted,
-	0.304,	// melee_grineer,
-	0.304,	// melee_infested,
-	0.371,	// melee_rof,
-	0.608,	// melee_ch_efficiency,
-	1.015,	// melee_ch_damage,
-	0.808,	// melee_finish_damage,
-	0.808,	// melee_range,
-	0.608,	// melee_slide_crit,
-	5.5,	// melee_combo,
-	0.0,	// melee_combocrit,
-	0.0,	// melee_comboproc,
+    1.112,	// melee_damage,
+    0.808,	// melee_impact,
+    0.808,	// melee_puncture,
+    0.808,	// melee_slash,
+    0.608,	// melee_crit,
+    0.608,	// melee_mult,
+    0.608,	// melee_cold,
+    0.608,	// melee_electricity,
+    0.608,	// melee_heat,
+    0.608,	// melee_toxin,
+    0.608,	// melee_proc,
+    0.675,	// melee_proc_duration,
+    0.304,	// melee_corpus,
+    0.304,	// melee_corrupted,
+    0.304,	// melee_grineer,
+    0.304,	// melee_infested,
+    0.371,	// melee_rof,
+    0.608,	// melee_ch_efficiency,
+    1.015,	// melee_ch_damage,
+    0.808,	// melee_finish_damage,
+    0.808,	// melee_range,
+    0.608,	// melee_slide_crit,
+    5.5,	// melee_combo,
+    0.0,	// melee_combocrit,
+    0.0,	// melee_comboproc,
 };
 
 //TODO: need some way to differentiate health types from armor types (only two armor types: ferrite and alloy)
